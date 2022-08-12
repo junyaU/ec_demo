@@ -14,3 +14,7 @@ func newPromotionText(text string) (promotionText, error) {
 		value: "",
 	}, nil
 }
+
+func (t promotionText) String() string {
+	return t.value
+}

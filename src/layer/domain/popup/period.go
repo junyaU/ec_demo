@@ -41,3 +41,7 @@ func (p period) isNowOpen() bool {
 	now := time.Now()
 	return now.After(p.startTime) && now.Before(p.endingTime)
 }
+
+func (p period) string() string {
+	return p.startTime.String() + "/" + p.endingTime.String()
+}

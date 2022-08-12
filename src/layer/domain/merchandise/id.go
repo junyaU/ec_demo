@@ -1,4 +1,4 @@
-package popup
+package merchandise
 
 import (
 	"github.com/google/uuid"
@@ -16,7 +16,7 @@ func newId() (Id, error) {
 	}
 
 	return Id{
-		prefix: "POPUP_",
+		prefix: "MERCHANDISE_",
 		value:  u.String(),
 	}, err
 }

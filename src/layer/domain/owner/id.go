@@ -20,3 +20,7 @@ func NewId() (Id, error) {
 		value:  u.String(),
 	}, err
 }
+
+func (i Id) Identifier() string {
+	return i.prefix + i.value
+}
