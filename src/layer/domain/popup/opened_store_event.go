@@ -1,35 +1,34 @@
 package popup
 
 import (
+	"github.com/demo/layer/domain"
 	"github.com/demo/layer/domain/merchandise"
 	"github.com/demo/layer/domain/owner"
 )
 
 type openedStoreEvent struct {
-	Id             string
-	name           string
+	domain.Event
+	mainName       string
+	shoulderName   string
 	promotionText  string
 	period         string
 	ownerId        string
 	merchandiseIds []string
-	version        uint64
-	eventType      string
 }
 
-func newOpenedStoreEvent(storeId Id, ownerId owner.Id, merchandiseIds []merchandise.Id, name string, period period, text promotionText) openedStoreEvent {
+func newOpenedStoreEvent(storeId Id, ownerId owner.Id, merchandiseIds []merchandise.Id, storeName storeName, period period, text promotionText) openedStoreEvent {
 	var ids []string
 	for i, id := range merchandiseIds {
 		ids[i] = id.Identifier()
 	}
 
 	return openedStoreEvent{
-		Id:             storeId.Identifier(),
-		name:           name,
+		Event:          domain.NewEvent(storeId.Identifier(), 1, "OPENED_POPUP_STORE"),
+		mainName:       storeName.main,
+		shoulderName:   storeName.shoulder,
 		promotionText:  text.String(),
 		period:         period.string(),
 		ownerId:        ownerId.Identifier(),
 		merchandiseIds: ids,
-		version:        1,
-		eventType:      "OPENED_POPUP_STORE",
 	}
 }
