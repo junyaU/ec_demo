@@ -1,23 +1,26 @@
-package owner
+package merchandise
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
-func TestIcon_New(t *testing.T) {
+func TestName_New(t *testing.T) {
 	tests := []struct {
-		path    string
+		name    string
 		wantErr bool
 	}{
-		{path: "helloworld.jpg", wantErr: false},
-		{path: "hogehoge", wantErr: true},
-		{path: "hello.svg", wantErr: true},
-		{path: ".png", wantErr: true},
+		{name: "すごいシャツ", wantErr: false},
+		{name: "", wantErr: true},
+		{name: strings.Repeat("a", 51), wantErr: true},
 	}
 
 	for i, test := range tests {
-		_, err := newIcon(test.path)
+		_, err := newName(test.name)
 
 		if test.wantErr && err == nil {
 			t.Fatalf("#%d: want error but no error", i)
+
 		}
 
 		if !test.wantErr && err != nil {

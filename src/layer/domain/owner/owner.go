@@ -4,6 +4,6 @@ type Owner struct {
 	id        Id
 	name      string
 	icon      icon
-	selfIntro string
+	selfIntro selfIntro
 	email     email
 }

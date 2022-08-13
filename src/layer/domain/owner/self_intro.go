@@ -15,3 +15,7 @@ func newSelfIntro(value string) (selfIntro, error) {
 		text: value,
 	}, nil
 }
+
+func (i selfIntro) show() string {
+	return i.text
+}

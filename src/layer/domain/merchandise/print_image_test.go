@@ -1,8 +1,8 @@
-package owner
+package merchandise
 
 import "testing"
 
-func TestIcon_New(t *testing.T) {
+func TestPrintImage_New(t *testing.T) {
 	tests := []struct {
 		path    string
 		wantErr bool
@@ -14,7 +14,7 @@ func TestIcon_New(t *testing.T) {
 	}
 
 	for i, test := range tests {
-		_, err := newIcon(test.path)
+		_, err := newPrintImage(test.path)
 
 		if test.wantErr && err == nil {
 			t.Fatalf("#%d: want error but no error", i)
