@@ -49,3 +49,7 @@ func (s *EventStore) AppendToStream(e domain.Eventer) error {
 
 	return s.Push(TABLE_NAME, domain.NewEventModel(e.Identifier(), e.Version()+1, e.Type(), eventJSON))
 }
+
+func (s *EventStore) LoadEventStream(id string) ([]domain.EventModel, error) {
+	return []domain.EventModel{}, nil
+}

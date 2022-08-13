@@ -1,6 +1,8 @@
 package popup
 
 import (
+	"errors"
+	"github.com/demo/layer/domain"
 	"github.com/demo/layer/domain/merchandise"
 	"github.com/demo/layer/domain/owner"
 )
@@ -12,9 +14,31 @@ type Store struct {
 	promotionText  promotionText
 	period         period
 	merchandiseIds []merchandise.Id
+	version        uint64
 }
 
-func OpenStore(startTime, endingTime, mainName, shoulderName, promotionText string, ownerId owner.Id, merchandiseIds []merchandise.Id) (openedStoreEvent, error) {
+func Get(events []domain.EventModel) (*Store, error) {
+	lastEvent := events[len(events)-1]
+
+	storeId, err := NewExistingId(lastEvent.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	s := new(Store)
+	s.id = storeId
+	s.version = lastEvent.Version
+
+	// イベント読み込み処理
+	for _, event := range events {
+		switch event {
+		}
+	}
+
+	return s, nil
+}
+
+func OpenStore(startTime, endingTime, mainName, shoulderName, promotionText string, ownerId owner.Id) (openedStoreEvent, error) {
 	storeId, err := newId()
 	if err != nil {
 		return openedStoreEvent{}, err
@@ -35,5 +59,17 @@ func OpenStore(startTime, endingTime, mainName, shoulderName, promotionText stri
 		return openedStoreEvent{}, err
 	}
 
-	return newOpenedStoreEvent(storeId, ownerId, merchandiseIds, storeName, period, pText), nil
+	return newOpenedStoreEvent(storeId, ownerId, storeName, period, pText), nil
+}
+
+func (s Store) IsCorrectOwner(id owner.Id) bool {
+	return id.Identifier() == s.ownerId.Identifier()
+}
+
+func (s *Store) ExhibitMerchandise(ids []merchandise.Id) (ExhibitedEvent, error) {
+	if len(s.merchandiseIds) > 50 {
+		return ExhibitedEvent{}, errors.New("can only list up to 50 products")
+	}
+
+	return newExhibitedEvent(s.id, ids, s.version), nil
 }
