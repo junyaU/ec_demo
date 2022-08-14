@@ -18,8 +18,8 @@ func NewExhibit(r usecase.EventRepository) *exhibit {
 	}
 }
 
-func (e *exhibit) Exec(popupId, ownerId string, merchandiseIds []string) error {
-	ownerEvents, err := e.store.LoadEventStream(ownerId)
+func (e *exhibit) Exec(command ExhibitCommand) error {
+	ownerEvents, err := e.store.LoadEventStream(command.ownerId)
 	if err != nil {
 		return err
 	}
@@ -28,7 +28,7 @@ func (e *exhibit) Exec(popupId, ownerId string, merchandiseIds []string) error {
 		return err
 	}
 
-	popupEvents, err := e.store.LoadEventStream(popupId)
+	popupEvents, err := e.store.LoadEventStream(command.popupId)
 	if err != nil {
 		return err
 	}
@@ -42,7 +42,7 @@ func (e *exhibit) Exec(popupId, ownerId string, merchandiseIds []string) error {
 	}
 
 	var ids []merchandise.Id
-	for i, id := range merchandiseIds {
+	for i, id := range command.merchandiseIds {
 		merchandiseEvents, err := e.store.LoadEventStream(id)
 		if err != nil {
 			return err
@@ -65,4 +65,19 @@ func (e *exhibit) Exec(popupId, ownerId string, merchandiseIds []string) error {
 	}
 
 	return e.store.AppendToStream(exhibitedEvent)
+}
+
+type ExhibitCommand struct {
+	popupId        string
+	ownerId        string
+	merchandiseIds []string
+}
+
+func NewExhibitedCommand(popupId, ownerId string, merchandiseId []string) ExhibitCommand {
+	return ExhibitCommand{
+		popupId:        popupId,
+		ownerId:        ownerId,
+		merchandiseIds: merchandiseId,
+	}
+
 }

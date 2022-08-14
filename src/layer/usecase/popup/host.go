@@ -17,8 +17,8 @@ func NewHost(r usecase.EventRepository) *host {
 	}
 }
 
-func (h *host) Exec(ownerId, startTime, endingTime, mainName, shoulderName, promotionText string) error {
-	events, err := h.store.LoadEventStream(ownerId)
+func (h *host) Exec(command HostCommand) error {
+	events, err := h.store.LoadEventStream(command.ownerId)
 	if err != nil {
 		return err
 	}
@@ -32,10 +32,30 @@ func (h *host) Exec(ownerId, startTime, endingTime, mainName, shoulderName, prom
 		return errors.New("don`t meet the requirements to host a pop-up store")
 	}
 
-	openEvent, err := popup.OpenStore(startTime, endingTime, mainName, shoulderName, promotionText, o.Identify())
+	openEvent, err := popup.OpenStore(command.startTime, command.endingTime, command.mainName, command.shoulderName, command.promotionText, o.Identify())
 	if err != nil {
 		return err
 	}
 
 	return h.store.AppendToStream(openEvent)
+}
+
+type HostCommand struct {
+	ownerId       string
+	startTime     string
+	endingTime    string
+	mainName      string
+	shoulderName  string
+	promotionText string
+}
+
+func NewHostCommand(ownerId, startTime, endingTime, mainName, shoulderName, promotionText string) HostCommand {
+	return HostCommand{
+		ownerId:       ownerId,
+		startTime:     startTime,
+		endingTime:    endingTime,
+		mainName:      mainName,
+		shoulderName:  shoulderName,
+		promotionText: promotionText,
+	}
 }

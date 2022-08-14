@@ -26,11 +26,7 @@ func Get(events []domain.EventModel) (*Owner, error) {
 	o.id = ownerId
 	o.version = lastEvent.Version
 
-	// イベント読み込み処理
-	for _, event := range events {
-		switch event {
-		}
-	}
+	// イベント読み込み処理がここに来る
 
 	return o, nil
 }

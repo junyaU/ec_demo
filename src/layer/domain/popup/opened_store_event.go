@@ -16,7 +16,7 @@ type openedStoreEvent struct {
 	ownerId       string
 }
 
-func newOpenedStoreEvent(storeId Id, ownerId owner.Id, storeName storeName, period period, text promotionText) openedStoreEvent {
+func newOpenedStoreEvent(storeId Id, ownerId owner.Id, storeName name, period period, text promotionText) openedStoreEvent {
 	return openedStoreEvent{
 		Event:         domain.NewEvent(storeId.Identifier(), 1, OPENED_POPUP_STORE_EVENT),
 		mainName:      storeName.main,

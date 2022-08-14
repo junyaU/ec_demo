@@ -10,7 +10,7 @@ import (
 type Store struct {
 	id             Id
 	ownerId        owner.Id
-	name           storeName
+	name           name
 	promotionText  promotionText
 	period         period
 	merchandiseIds []merchandise.Id
@@ -29,11 +29,7 @@ func Get(events []domain.EventModel) (*Store, error) {
 	s.id = storeId
 	s.version = lastEvent.Version
 
-	// イベント読み込み処理
-	for _, event := range events {
-		switch event {
-		}
-	}
+	// イベント読み込み処理がここに来る
 
 	return s, nil
 }
@@ -49,7 +45,7 @@ func OpenStore(startTime, endingTime, mainName, shoulderName, promotionText stri
 		return openedStoreEvent{}, err
 	}
 
-	storeName, err := newStoreName(mainName, shoulderName)
+	storeName, err := newName(mainName, shoulderName)
 	if err != nil {
 		return openedStoreEvent{}, err
 	}
