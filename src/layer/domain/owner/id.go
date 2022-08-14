@@ -13,7 +13,7 @@ type Id struct {
 	value  string
 }
 
-func NewId() (Id, error) {
+func newId() (Id, error) {
 	u, err := uuid.NewRandom()
 	if err != nil {
 		return Id{}, err
@@ -29,7 +29,7 @@ func (i Id) Identifier() string {
 	return i.prefix + i.value
 }
 
-func NewExistingId(value string) (Id, error) {
+func newExistingId(value string) (Id, error) {
 	if !strings.Contains(value, OWNER_ID_PREFIX) {
 		return Id{}, errors.New("it is not an owner id")
 	}

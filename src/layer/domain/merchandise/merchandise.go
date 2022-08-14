@@ -19,13 +19,13 @@ type Merchandise struct {
 func Get(events []domain.EventModel) (*Merchandise, error) {
 	lastEvent := events[len(events)-1]
 
-	ownerId, err := newExistingId(lastEvent.ID)
+	merchandiseId, err := newExistingId(lastEvent.ID)
 	if err != nil {
 		return nil, err
 	}
 
 	m := new(Merchandise)
-	m.id = ownerId
+	m.id = merchandiseId
 	m.version = lastEvent.Version
 
 	// イベント読み込み処理がここに来る

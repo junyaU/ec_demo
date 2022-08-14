@@ -29,7 +29,7 @@ func (i Id) Identifier() string {
 	return i.prefix + i.value
 }
 
-func NewExistingId(value string) (Id, error) {
+func newExistingId(value string) (Id, error) {
 	if !strings.Contains(value, POPUP_ID_PREFIX) {
 		return Id{}, errors.New("it is not an owner id")
 	}

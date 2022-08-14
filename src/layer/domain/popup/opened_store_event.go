@@ -7,7 +7,7 @@ import (
 
 const OPENED_POPUP_STORE_EVENT = "OPENED_POPUP_STORE"
 
-type openedStoreEvent struct {
+type OpenedStoreEvent struct {
 	domain.Event
 	mainName      string
 	shoulderName  string
@@ -16,8 +16,8 @@ type openedStoreEvent struct {
 	ownerId       string
 }
 
-func newOpenedStoreEvent(storeId Id, ownerId owner.Id, storeName name, period period, text promotionText) openedStoreEvent {
-	return openedStoreEvent{
+func newOpenedStoreEvent(storeId Id, ownerId owner.Id, storeName name, period period, text promotionText) OpenedStoreEvent {
+	return OpenedStoreEvent{
 		Event:         domain.NewEvent(storeId.Identifier(), 1, OPENED_POPUP_STORE_EVENT),
 		mainName:      storeName.main,
 		shoulderName:  storeName.shoulder,

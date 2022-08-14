@@ -17,7 +17,7 @@ type Owner struct {
 func Get(events []domain.EventModel) (*Owner, error) {
 	lastEvent := events[len(events)-1]
 
-	ownerId, err := NewExistingId(lastEvent.ID)
+	ownerId, err := newExistingId(lastEvent.ID)
 	if err != nil {
 		return nil, err
 	}

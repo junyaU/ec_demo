@@ -14,8 +14,8 @@ type ExhibitedEvent struct {
 
 func newExhibitedEvent(popupId Id, merchandiseIds []merchandise.Id, version uint64) ExhibitedEvent {
 	var ids []string
-	for i, id := range merchandiseIds {
-		ids[i] = id.Identifier()
+	for _, id := range merchandiseIds {
+		ids = append(ids, id.Identifier())
 	}
 
 	return ExhibitedEvent{

@@ -20,7 +20,7 @@ type Store struct {
 func Get(events []domain.EventModel) (*Store, error) {
 	lastEvent := events[len(events)-1]
 
-	storeId, err := NewExistingId(lastEvent.ID)
+	storeId, err := newExistingId(lastEvent.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -34,25 +34,25 @@ func Get(events []domain.EventModel) (*Store, error) {
 	return s, nil
 }
 
-func OpenStore(startTime, endingTime, mainName, shoulderName, promotionText string, ownerId owner.Id) (openedStoreEvent, error) {
+func OpenStore(startTime, endingTime, mainName, shoulderName, promotionText string, ownerId owner.Id) (OpenedStoreEvent, error) {
 	storeId, err := newId()
 	if err != nil {
-		return openedStoreEvent{}, err
+		return OpenedStoreEvent{}, err
 	}
 
 	period, err := newPeriod(startTime, endingTime)
 	if err != nil {
-		return openedStoreEvent{}, err
+		return OpenedStoreEvent{}, err
 	}
 
 	storeName, err := newName(mainName, shoulderName)
 	if err != nil {
-		return openedStoreEvent{}, err
+		return OpenedStoreEvent{}, err
 	}
 
 	pText, err := newPromotionText(promotionText)
 	if err != nil {
-		return openedStoreEvent{}, err
+		return OpenedStoreEvent{}, err
 	}
 
 	return newOpenedStoreEvent(storeId, ownerId, storeName, period, pText), nil
@@ -63,7 +63,7 @@ func (s Store) IsCorrectOwner(id owner.Id) bool {
 }
 
 func (s *Store) ExhibitMerchandise(ids []merchandise.Id) (ExhibitedEvent, error) {
-	if len(s.merchandiseIds) > 50 {
+	if len(ids) > 50 {
 		return ExhibitedEvent{}, errors.New("can only list up to 50 products")
 	}
 

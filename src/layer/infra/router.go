@@ -29,6 +29,7 @@ func InitRouter(bus evbus.Bus) {
 	e.Use(middleware.Logger())
 
 	e.POST("/popup", popup.Create)
+	e.PATCH("popup/merchandise", popup.UpdateMerchandises)
 
 	e.Logger.Fatal(e.Start(":8000"))
 }
